@@ -1,29 +1,31 @@
-import { Text, View, TextInput, TouchableOpacity, FlatList, Alert } from "react-native";
+import React, { useState } from 'react';
+import { Text, View, TextInput, TouchableOpacity, FlatList, Alert, Keyboard } from "react-native";
 import { Participant } from "../../components/Participant";
-import {styles} from './styles';
+import { styles } from './styles';
 export function Home() {
+  const [participants, setParticipants] = useState(['Diogo']);
 
-    const participants = ['1','2','3','4','5','6','7','8','9','10']
-
-    const handleAddParticipant = () => {
-        if(participants.includes("1")){
-           return Alert.alert("Participante existe", "Já existe um participante na sua lista")
-        
+  const handleAddParticipant = () => {
+    if (participants.includes("Diego")) {
+      return Alert.alert("Participante existe", "Já existe um participante na sua lista")
     }
-}
 
-    const handleRemoveParticipant = (name: string) => {
-        Alert.alert("Remover", `Deseja remover o participante ${name}? `,[
-            {
-                text: "Sim",
-                onPress: () => Alert.alert("Deletado!")
-            },
-            {
-                text: "Não",
-                style: "cancel"
-            }
+    setParticipants(previousState => [...previousState, 'Henrique']);
+    Keyboard.dismiss();
+  }
+
+  const handleRemoveParticipant = (name: string) => {
+    Alert.alert("Remover", `Deseja remover o participante ${name}? `, [
+      {
+        text: "Sim",
+        onPress: () => Alert.alert("Deletado!")
+      },
+      {
+        text: "Não",
+        style: "cancel"
+      }
     ])
-    }
+  }
 
   return (
     <View style={styles.container}>
@@ -35,38 +37,38 @@ export function Home() {
         Sexta, 4 de Novembro de 2022.
       </Text>
 
-    <View style={styles.form}> 
-      <TextInput
-        style={styles.input}
-        placeholder="Nome do participante"
-        placeholderTextColor='gray'
-      />
+      <View style={styles.form}>
+        <TextInput
+          style={styles.input}
+          placeholder="Nome do participante"
+          placeholderTextColor='gray'
+        />
 
-      <TouchableOpacity style={styles.button} onPress={handleAddParticipant}>
-        <Text style={styles.buttonText}>
+        <TouchableOpacity style={styles.button} onPress={handleAddParticipant}>
+          <Text style={styles.buttonText}>
             +
-        </Text>
-      </TouchableOpacity>
-    </View>
+          </Text>
+        </TouchableOpacity>
+      </View>
 
-    <FlatList 
+      <FlatList
         data={participants}
         keyExtractor={item => item}
-        renderItem={({item}) => (
-            <Participant
-            key={item} 
+        renderItem={({ item }) => (
+          <Participant
+            key={item}
             name={item}
-            onRemove={() => handleRemoveParticipant(item)}/>
+            onRemove={() => handleRemoveParticipant(item)} />
         )}
         showsVerticalScrollIndicator={false}
         ListEmptyComponent={() => (
-            <Text style={styles.emptyList}>
-                Não há nenhum participante adicionado. Insira o nome dos participantes para que a lista seja carregada.
-            </Text>
+          <Text style={styles.emptyList}>
+            Não há nenhum participante adicionado. Insira o nome dos participantes para que a lista seja carregada.
+          </Text>
         )}
 
-    />
-    {/* {
+      />
+      {/* {
         participants.map(participant => (
             <Participant
             key={participant} 
