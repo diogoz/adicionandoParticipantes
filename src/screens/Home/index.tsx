@@ -3,14 +3,16 @@ import { Text, View, TextInput, TouchableOpacity, FlatList, Alert, Keyboard } fr
 import { Participant } from "../../components/Participant";
 import { styles } from './styles';
 export function Home() {
-  const [participants, setParticipants] = useState(['Diogo']);
+  const [participants, setParticipants] = useState<string[]>([]);
+  const [participantName, setParticipantName] = useState('');
 
   const handleAddParticipant = () => {
-    if (participants.includes("Diego")) {
+    if (participants.includes(participantName)) {
       return Alert.alert("Participante existe", "Já existe um participante na sua lista")
     }
 
-    setParticipants(previousState => [...previousState, 'Henrique']);
+    setParticipants(previousState => [...previousState, participantName]);
+    setParticipantName('');
     Keyboard.dismiss();
   }
 
@@ -42,6 +44,8 @@ export function Home() {
           style={styles.input}
           placeholder="Nome do participante"
           placeholderTextColor='gray'
+          onChangeText={setParticipantName}
+          value={participantName}
         />
 
         <TouchableOpacity style={styles.button} onPress={handleAddParticipant}>
